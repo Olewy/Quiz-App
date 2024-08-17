@@ -136,11 +136,14 @@ function nextQuestion() {
   } else if (currentQuestionPointer === questions.length - 1) {
     document.getElementById("welcomeText").innerHTML =
       "Congrats, you finished the Quiz!";
+    document.getElementById("subtitle").innerHTML =
+      "Press repeat to restart the Quiz!";
   }
 }
 
 function repeatQuiz() {
   document.getElementById("welcomeText").innerHTML = "Press Next!";
+  document.getElementById("subtitle").innerHTML = "";
   currentQuestionPointer = -1;
   currentQuestion = questions[currentQuestionPointer];
 }
