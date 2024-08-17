@@ -1,7 +1,7 @@
 let questions = [
   {
     id: 1,
-    question: "Was ist die Hauptstadt von Deutschland",
+    question: "Was ist die Hauptstadt von Deutschland?",
     answers: [
       {
         id: "a",
@@ -14,12 +14,12 @@ let questions = [
         correct: false,
       },
       {
-        id: "a",
+        id: "c",
         text: "Berlin",
-        correct: false,
+        correct: true,
       },
       {
-        id: "a",
+        id: "d",
         text: "Hannover",
         correct: false,
       },
@@ -27,7 +27,7 @@ let questions = [
   },
   {
     id: 2,
-    question: "Was ist die Hauptstadt von Frankreich",
+    question: "Was ist die Hauptstadt von Frankreich?",
     answers: [
       {
         id: "a",
@@ -37,16 +37,42 @@ let questions = [
       {
         id: "b",
         text: "Paris",
-        correct: false,
+        correct: true,
       },
       {
-        id: "a",
+        id: "c",
         text: "Marseille",
         correct: false,
       },
       {
-        id: "a",
+        id: "d",
         text: "Straßburg",
+        correct: false,
+      },
+    ],
+  },
+  {
+    id: 3,
+    question: "Wer hat die Monalisa gemalt?",
+    answers: [
+      {
+        id: "a",
+        text: "Leonardo da Vinci",
+        correct: true,
+      },
+      {
+        id: "b",
+        text: "Vincent Van Gogh",
+        correct: false,
+      },
+      {
+        id: "c",
+        text: "Pablo Picasso",
+        correct: false,
+      },
+      {
+        id: "d",
+        text: "Michelangelo",
         correct: false,
       },
     ],
@@ -72,6 +98,8 @@ function renderQuestion(question) {
   //   Lösungsvorschlag Liam
   question.answers.forEach((answer) => {
     const answerDiv = document.createElement("button");
+    answerDiv.id = answer.id;
+    answerDiv.setAttribute("onclick", `validate('${answer.id}')`);
     answerDiv.classList.add("answer");
     answerDiv.append(document.createTextNode(answer.text));
     questionAnswers.append(answerDiv);
@@ -101,21 +129,31 @@ function nextQuestion() {
   renderQuestion(currentQuestion);
 }
 
-function saveQuestionToLocalStorage() {
-  localStorage.setItem("questions"), JSON.stringify(questions);
-}
-
-function deletePreviousQuestion() {
-  document.getElementById(id).remove();
-  questions = questions.filter((question) => {
-    return question.id !== id;
+function validate(answerId) {
+  const correctAnswer = currentQuestion.answers.find((answer) => {
+    return answer.correct;
   });
+
+  if (correctAnswer.id === answerId) {
+    alert("Correct!");
+    document.getElementById(answerId).classList.add("correct");
+  } else {
+    alert("Incorrect!");
+    document.getElementById(answerId).classList.add("incorrect");
+    document.getElementById(correctAnswer.id).classList.add("correct");
+  }
 }
 
-function answerIncorrect() {
-  alert("This answer is incorrect!");
+function showSolution() {
+  const correctAnswer = currentQuestion.answers.find((answer) => {
+    return answer.correct;
+  });
+  document.getElementById(correctAnswer.id).classList.add("correct");
 }
 
-function answerCorrect() {
-  alert("This answer is correct!");
+function shuffleAnswers() {
+  for (let i = answers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [answers];
+  }
 }
