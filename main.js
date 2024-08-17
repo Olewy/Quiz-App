@@ -1,7 +1,7 @@
 let questions = [
   {
     id: 1,
-    question: "Was ist die Hauptstadt von Deutschland?",
+    question: "What is the capital of Germany?",
     answers: [
       {
         id: "a",
@@ -27,7 +27,7 @@ let questions = [
   },
   {
     id: 2,
-    question: "Was ist die Hauptstadt von Frankreich?",
+    question: "What is the capital of France?",
     answers: [
       {
         id: "a",
@@ -53,7 +53,7 @@ let questions = [
   },
   {
     id: 3,
-    question: "Wer hat die Monalisa gemalt?",
+    question: "Who painted the Mona Lisa?",
     answers: [
       {
         id: "a",
@@ -95,15 +95,33 @@ function renderQuestion(question) {
   const questionAnswers = document.createElement("div");
   questionAnswers.classList.add("question-answers");
 
-  //   Lösungsvorschlag Liam
+  const answersCopy = [];
   question.answers.forEach((answer) => {
+    answersCopy.push(answer);
+  });
+
+  while (answersCopy.length > 0) {
+    const randomPointer = Math.floor(Math.random() * answersCopy.length);
+
+    const answer = answersCopy.splice(randomPointer, 1)[0];
+
     const answerDiv = document.createElement("button");
     answerDiv.id = answer.id;
     answerDiv.setAttribute("onclick", `validate('${answer.id}')`);
     answerDiv.classList.add("answer");
     answerDiv.append(document.createTextNode(answer.text));
     questionAnswers.append(answerDiv);
-  });
+  }
+
+  //   Lösungsvorschlag Liam
+  // question.answers.forEach((answer) => {
+  //   const answerDiv = document.createElement("button");
+  //   answerDiv.id = answer.id;
+  //   answerDiv.setAttribute("onclick", `validate('${answer.id}')`);
+  //   answerDiv.classList.add("answer");
+  //   answerDiv.append(document.createTextNode(answer.text));
+  //   questionAnswers.append(answerDiv);
+  // });
 
   questionDiv.append(questionTitle);
   questionTitle.append(questionTitleText);
@@ -149,11 +167,4 @@ function showSolution() {
     return answer.correct;
   });
   document.getElementById(correctAnswer.id).classList.add("correct");
-}
-
-function shuffleAnswers() {
-  for (let i = answers.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [answers];
-  }
 }
