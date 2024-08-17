@@ -1,4 +1,4 @@
-const questions = [
+let questions = [
   {
     id: 1,
     question: "Was ist die Hauptstadt von Deutschland",
@@ -53,10 +53,12 @@ const questions = [
   },
 ];
 
-function renderQuestion() {
-  const question = questions[0];
+let currentQuestion;
+let currentQuestionPointer = -1;
 
+function renderQuestion(question) {
   const questionDiv = document.createElement("div");
+  questionDiv.id = question.id;
   questionDiv.classList.add("question");
 
   const questionTitle = document.createElement("h1");
@@ -68,46 +70,46 @@ function renderQuestion() {
   questionAnswers.classList.add("question-answers");
 
   //   Lösungsvorschlag Liam
-  //   question.answers.forEach((answer) => {
-  //     const answerDiv = document.createElement("button");
-  //     answerDiv.classList.add("answer");
-  //     answerDiv.append(document.createTextNode(answer.text));
-  //     questionAnswers.append(answerDiv);
-  //   });
-
-  // Lösungsvorschlag Ole
-  const answer1 = document.createElement("button");
-  answer1.classList.add("answer");
-  const answer2 = document.createElement("button");
-  answer2.classList.add("answer");
-  const answer3 = document.createElement("button");
-  answer3.classList.add("answer");
-  const answer4 = document.createElement("button");
-  answer4.classList.add("answer");
-
-  const answerText1 = document.createTextNode(question.answers.text);
-  const answerText2 = document.createTextNode("München");
-  const answerText3 = document.createTextNode("Berlin");
-  const answerText4 = document.createTextNode("Hannover");
-
-  const displayQuestion = document.getElementById("display-question");
-
-  displayQuestion.append(questionDiv);
+  question.answers.forEach((answer) => {
+    const answerDiv = document.createElement("button");
+    answerDiv.classList.add("answer");
+    answerDiv.append(document.createTextNode(answer.text));
+    questionAnswers.append(answerDiv);
+  });
 
   questionDiv.append(questionTitle);
   questionTitle.append(questionTitleText);
 
   questionDiv.append(questionAnswers);
 
-  questionAnswers.append(answer1);
-  questionAnswers.append(answer2);
-  questionAnswers.append(answer3);
-  questionAnswers.append(answer4);
+  const displayQuestion = document.getElementById("display-question");
+  displayQuestion.append(questionDiv);
+}
 
-  answer1.append(answerText1);
-  answer2.append(answerText2);
-  answer3.append(answerText3);
-  answer4.append(answerText4);
+function nextQuestion() {
+  if (currentQuestion) {
+    document.getElementById(String(currentQuestion.id)).remove();
+  }
+
+  if (currentQuestionPointer + 1 < questions.length) {
+    currentQuestionPointer++;
+    currentQuestion = questions[currentQuestionPointer];
+  } else {
+    currentQuestionPointer = 0;
+    currentQuestion = questions[currentQuestionPointer];
+  }
+  renderQuestion(currentQuestion);
+}
+
+function saveQuestionToLocalStorage() {
+  localStorage.setItem("questions"), JSON.stringify(questions);
+}
+
+function deletePreviousQuestion() {
+  document.getElementById(id).remove();
+  questions = questions.filter((question) => {
+    return question.id !== id;
+  });
 }
 
 function answerIncorrect() {
