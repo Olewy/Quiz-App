@@ -83,6 +83,8 @@ let currentQuestion;
 let currentQuestionPointer = -1;
 
 function renderQuestion(question) {
+  document.getElementById("welcomeText").innerHTML = "";
+  document.getElementById("subtitle").innerHTML = "";
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   questionDiv.classList.add("question");
@@ -113,16 +115,6 @@ function renderQuestion(question) {
     questionAnswers.append(answerDiv);
   }
 
-  //   Lösungsvorschlag Liam
-  // question.answers.forEach((answer) => {
-  //   const answerDiv = document.createElement("button");
-  //   answerDiv.id = answer.id;
-  //   answerDiv.setAttribute("onclick", `validate('${answer.id}')`);
-  //   answerDiv.classList.add("answer");
-  //   answerDiv.append(document.createTextNode(answer.text));
-  //   questionAnswers.append(answerDiv);
-  // });
-
   questionDiv.append(questionTitle);
   questionTitle.append(questionTitleText);
 
@@ -140,11 +132,17 @@ function nextQuestion() {
   if (currentQuestionPointer + 1 < questions.length) {
     currentQuestionPointer++;
     currentQuestion = questions[currentQuestionPointer];
-  } else {
-    currentQuestionPointer = 0;
-    currentQuestion = questions[currentQuestionPointer];
+    renderQuestion(currentQuestion);
+  } else if (currentQuestionPointer === questions.length - 1) {
+    document.getElementById("welcomeText").innerHTML =
+      "Congrats, you finished the Quiz!";
   }
-  renderQuestion(currentQuestion);
+}
+
+function repeatQuiz() {
+  document.getElementById("welcomeText").innerHTML = "Press Next!";
+  currentQuestionPointer = -1;
+  currentQuestion = questions[currentQuestionPointer];
 }
 
 function validate(answerId) {
