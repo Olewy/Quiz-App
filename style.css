@@ -128,3 +128,7 @@ body {
 .answer.disabled:hover {
   transform: none;
 }
+
+.removeFooterButtons {
+  display: none;
+}

@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", addFooterButtons);
+
 let questions = [
   {
     id: 1,
@@ -94,7 +96,6 @@ nextQuestionButton.addEventListener("click", nextQuestion);
 function renderQuestion(question) {
   document.getElementById("welcomeText").innerHTML = "";
   document.getElementById("subtitle").innerHTML = "";
-
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   questionDiv.classList.add("question");
@@ -143,6 +144,7 @@ function nextQuestion() {
     currentQuestionPointer++;
     currentQuestion = questions[currentQuestionPointer];
     renderQuestion(currentQuestion);
+    addFooterButtons();
   } else if (currentQuestionPointer === questions.length - 1) {
     document.getElementById("welcomeText").innerHTML =
       "Congrats, you finished the Quiz!";
@@ -158,7 +160,29 @@ function nextQuestion() {
 
     const displayQuestion = document.getElementById("display-question");
     displayQuestion.append(repeatQuizButton);
+
+    removeFooterButtons();
   }
+}
+
+function removeFooterButtons() {
+  document
+    .getElementById("showSolutionButton")
+    .classList.add("removeFooterButtons");
+
+  document
+    .getElementById("nextQuestionButton")
+    .classList.add("removeFooterButtons");
+}
+
+function addFooterButtons() {
+  document
+    .getElementById("showSolutionButton")
+    .classList.remove("removeFooterButtons");
+
+  document
+    .getElementById("nextQuestionButton")
+    .classList.remove("removeFooterButtons");
 }
 
 function repeatQuiz() {
