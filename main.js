@@ -92,17 +92,6 @@ const nextQuestionButton = document.getElementById("nextQuestionButton");
 nextQuestionButton.addEventListener("click", nextQuestion);
 
 function renderQuestion(question) {
-  const welcomeText = document.getElementById("welcomeText").innerHTML;
-  const subtitle = document.getElementById("subtitle").innerHTML;
-  if (
-    welcomeText === "Welcome to the Quiz!" &&
-    subtitle === "Press Next to start the Quiz"
-  ) {
-    document.getElementById("welcomeText").innerHTML = "";
-    document.getElementById("subtitle").innerHTML = "";
-  }
-
-  document.getElementById("subtitle").innerHTML = "";
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   questionDiv.classList.add("question");
@@ -146,26 +135,29 @@ function nextQuestion() {
   if (currentQuestion) {
     document.getElementById(String(currentQuestion.id)).remove();
   }
+  const welcomeText = document.getElementById("welcomeText");
+  const subtitle = document.getElementById("subtitle");
+  if (currentQuestionPointer < 0) {
+    welcomeText.remove();
+    subtitle.remove();
+  }
 
   if (currentQuestionPointer + 1 < questions.length) {
     currentQuestionPointer++;
     currentQuestion = questions[currentQuestionPointer];
     renderQuestion(currentQuestion);
     addFooterButtons();
-
-    const welcomeText = document.getElementById("welcomeText").innerHTML;
-    if (welcomeText === "") {
-      document.getElementById("welcomeText").remove();
-    }
-
-    // document.getElementById("subtitle").remove();
-    // console.log(welcomeText);
   } else if (currentQuestionPointer === questions.length - 1) {
-    document.getElementById("welcomeText").innerHTML =
-      "Congrats, you finished the Quiz!";
-    enableAnswerButtons();
+    const welcomeHeading = document.createElement("h1");
+    welcomeHeading.classList.add("question-title");
+    const welcomeHeadingText = document.createTextNode(
+      "Congrats, you finished the Quiz!"
+    );
+    welcomeHeading.append(welcomeHeadingText);
+
     const repeatQuizButton = document.createElement("a");
     repeatQuizButton.classList.add("repeatQuizButton");
+
     const repeatQuizButtonText = document.createTextNode(
       "Press to repeat the Quiz!"
     );
@@ -174,23 +166,24 @@ function nextQuestion() {
     repeatQuizButton.append(repeatQuizButtonText);
 
     const displayQuestion = document.getElementById("display-question");
+
+    displayQuestion.append(welcomeHeading);
     displayQuestion.append(repeatQuizButton);
 
+    enableAnswerButtons();
     removeFooterButtons();
-
-    document.getElementById("welcomeText").add();
   }
 }
 
-function repeatQuiz() {
-  if (currentQuestionPointer === questions.length) {
-    document.getElementById("welcomeText").innerHTML = "Press Next!";
-    document.getElementById("subtitle").innerHTML = "";
-    currentQuestionPointer = -1;
-    currentQuestion = questions[currentQuestionPointer];
-  }
-  enableAnswerButtons();
-}
+// function repeatQuiz() {
+//   if (currentQuestionPointer === questions.length) {
+//     document.getElementById("welcomeText").innerHTML = "Press Next!";
+//     document.getElementById("subtitle").innerHTML = "";
+//     currentQuestionPointer = -1;
+//     currentQuestion = questions[currentQuestionPointer];
+//   }
+//   enableAnswerButtons();
+// }
 
 function validate(answerId) {
   const correctAnswer = currentQuestion.answers.find((answer) => {
