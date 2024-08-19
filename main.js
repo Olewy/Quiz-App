@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", addFooterButtons);
+document.addEventListener("DOMContentLoaded", removeShowSolutionButton);
 
 let questions = [
   {
@@ -90,9 +91,6 @@ showSolutionButton.addEventListener("click", showSolution);
 const nextQuestionButton = document.getElementById("nextQuestionButton");
 nextQuestionButton.addEventListener("click", nextQuestion);
 
-// const repeatQuestionButton = document.getElementById("repeatQuestionButton");
-// repeatQuestionButton.addEventListener("click", repeatQuiz);
-
 function renderQuestion(question) {
   document.getElementById("welcomeText").innerHTML = "";
   document.getElementById("subtitle").innerHTML = "";
@@ -165,26 +163,6 @@ function nextQuestion() {
   }
 }
 
-function removeFooterButtons() {
-  document
-    .getElementById("showSolutionButton")
-    .classList.add("removeFooterButtons");
-
-  document
-    .getElementById("nextQuestionButton")
-    .classList.add("removeFooterButtons");
-}
-
-function addFooterButtons() {
-  document
-    .getElementById("showSolutionButton")
-    .classList.remove("removeFooterButtons");
-
-  document
-    .getElementById("nextQuestionButton")
-    .classList.remove("removeFooterButtons");
-}
-
 function repeatQuiz() {
   if (currentQuestionPointer === questions.length) {
     document.getElementById("welcomeText").innerHTML = "Press Next!";
@@ -210,6 +188,14 @@ function validate(answerId) {
   disableAnswerButtons();
 }
 
+function showSolution() {
+  const correctAnswer = currentQuestion.answers.find((answer) => {
+    return answer.correct;
+  });
+  document.getElementById(correctAnswer.id).classList.add("correct");
+  disableAnswerButtons();
+}
+
 function disableAnswerButtons() {
   const answerButtons = document.querySelectorAll(".answer");
   answerButtons.forEach((button) => {
@@ -226,10 +212,28 @@ function enableAnswerButtons() {
   });
 }
 
-function showSolution() {
-  const correctAnswer = currentQuestion.answers.find((answer) => {
-    return answer.correct;
-  });
-  document.getElementById(correctAnswer.id).classList.add("correct");
-  disableAnswerButtons();
+function removeFooterButtons() {
+  document
+    .getElementById("showSolutionButton")
+    .classList.add("removeFooterButtons");
+
+  document
+    .getElementById("nextQuestionButton")
+    .classList.add("removeFooterButtons");
+}
+
+function removeShowSolutionButton() {
+  document
+    .getElementById("showSolutionButton")
+    .classList.add("removeFooterButtons");
+}
+
+function addFooterButtons() {
+  document
+    .getElementById("showSolutionButton")
+    .classList.remove("removeFooterButtons");
+
+  document
+    .getElementById("nextQuestionButton")
+    .classList.remove("removeFooterButtons");
 }
