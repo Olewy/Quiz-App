@@ -82,9 +82,19 @@ let questions = [
 let currentQuestion;
 let currentQuestionPointer = -1;
 
+const showSolutionButton = document.getElementById("showSolutionButton");
+showSolutionButton.addEventListener("click", showSolution);
+
+const nextQuestionButton = document.getElementById("nextQuestionButton");
+nextQuestionButton.addEventListener("click", nextQuestion);
+
+// const repeatQuestionButton = document.getElementById("repeatQuestionButton");
+// repeatQuestionButton.addEventListener("click", repeatQuiz);
+
 function renderQuestion(question) {
   document.getElementById("welcomeText").innerHTML = "";
   document.getElementById("subtitle").innerHTML = "";
+
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   questionDiv.classList.add("question");
@@ -136,16 +146,29 @@ function nextQuestion() {
   } else if (currentQuestionPointer === questions.length - 1) {
     document.getElementById("welcomeText").innerHTML =
       "Congrats, you finished the Quiz!";
-    document.getElementById("subtitle").innerHTML =
-      "Press repeat to restart the Quiz!";
+    enableAnswerButtons();
+    const repeatQuizButton = document.createElement("a");
+    repeatQuizButton.classList.add("repeatQuizButton");
+    const repeatQuizButtonText = document.createTextNode(
+      "Press to repeat the Quiz!"
+    );
+    repeatQuizButton.setAttribute("href", "index.html");
+
+    repeatQuizButton.append(repeatQuizButtonText);
+
+    const displayQuestion = document.getElementById("display-question");
+    displayQuestion.append(repeatQuizButton);
   }
 }
 
 function repeatQuiz() {
-  document.getElementById("welcomeText").innerHTML = "Press Next!";
-  document.getElementById("subtitle").innerHTML = "";
-  currentQuestionPointer = -1;
-  currentQuestion = questions[currentQuestionPointer];
+  if (currentQuestionPointer === questions.length) {
+    document.getElementById("welcomeText").innerHTML = "Press Next!";
+    document.getElementById("subtitle").innerHTML = "";
+    currentQuestionPointer = -1;
+    currentQuestion = questions[currentQuestionPointer];
+  }
+  enableAnswerButtons();
 }
 
 function validate(answerId) {
@@ -154,13 +177,29 @@ function validate(answerId) {
   });
 
   if (correctAnswer.id === answerId) {
-    alert("Correct!");
-    document.getElementById(answerId).classList.add("correct");
+    document.getElementById(correctAnswer.id).classList.add("correct");
   } else {
-    alert("Incorrect!");
     document.getElementById(answerId).classList.add("incorrect");
     document.getElementById(correctAnswer.id).classList.add("correct");
   }
+
+  disableAnswerButtons();
+}
+
+function disableAnswerButtons() {
+  const answerButtons = document.querySelectorAll(".answer");
+  answerButtons.forEach((button) => {
+    button.disabled = true;
+    button.classList.add("disabled");
+  });
+}
+
+function enableAnswerButtons() {
+  const answerButtons = document.querySelectorAll(".answer");
+  answerButtons.forEach((button) => {
+    button.disabled = false;
+    button.classList.remove("disabled");
+  });
 }
 
 function showSolution() {
@@ -168,4 +207,5 @@ function showSolution() {
     return answer.correct;
   });
   document.getElementById(correctAnswer.id).classList.add("correct");
+  disableAnswerButtons();
 }

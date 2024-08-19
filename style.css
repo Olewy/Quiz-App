@@ -17,7 +17,6 @@ body {
   text-align: center;
 }
 
-.questionTitle,
 .question-title {
   font-size: 2.5rem;
   color: #2c3e50;
@@ -45,6 +44,7 @@ body {
 .answer:hover {
   background-color: #d5dbdb;
   transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .answer.correct {
@@ -75,10 +75,26 @@ body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
 .footer-btn:hover {
   background-color: #2980b9;
+}
+
+.repeatQuizButton {
+  height: 3rem;
+  width: auto;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #db4a34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
 #welcomeText {
@@ -94,7 +110,7 @@ body {
   }
 
   .footer {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 
@@ -102,4 +118,13 @@ body {
     margin-bottom: 1rem;
     width: 100%;
   }
+}
+
+.answer.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.answer.disabled:hover {
+  transform: none;
 }
