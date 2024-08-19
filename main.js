@@ -92,7 +92,16 @@ const nextQuestionButton = document.getElementById("nextQuestionButton");
 nextQuestionButton.addEventListener("click", nextQuestion);
 
 function renderQuestion(question) {
-  document.getElementById("welcomeText").innerHTML = "";
+  const welcomeText = document.getElementById("welcomeText").innerHTML;
+  const subtitle = document.getElementById("subtitle").innerHTML;
+  if (
+    welcomeText === "Welcome to the Quiz!" &&
+    subtitle === "Press Next to start the Quiz"
+  ) {
+    document.getElementById("welcomeText").innerHTML = "";
+    document.getElementById("subtitle").innerHTML = "";
+  }
+
   document.getElementById("subtitle").innerHTML = "";
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
@@ -143,6 +152,14 @@ function nextQuestion() {
     currentQuestion = questions[currentQuestionPointer];
     renderQuestion(currentQuestion);
     addFooterButtons();
+
+    const welcomeText = document.getElementById("welcomeText").innerHTML;
+    if (welcomeText === "") {
+      document.getElementById("welcomeText").remove();
+    }
+
+    // document.getElementById("subtitle").remove();
+    // console.log(welcomeText);
   } else if (currentQuestionPointer === questions.length - 1) {
     document.getElementById("welcomeText").innerHTML =
       "Congrats, you finished the Quiz!";
@@ -160,6 +177,8 @@ function nextQuestion() {
     displayQuestion.append(repeatQuizButton);
 
     removeFooterButtons();
+
+    document.getElementById("welcomeText").add();
   }
 }
 
